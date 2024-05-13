@@ -4,7 +4,7 @@ import { quizQuestions } from '../constants/quizQuestions';
 import { useSelector, useDispatch } from 'react-redux';
 import { nextQuestion, addCorrect, addAttempted, fetchQuizData } from '../app/slice/quizSlice';
 import { useNavigate } from 'react-router-dom';
-import { Loader, Timer, QuizNavbar } from '../components/index'
+import { Loader, Timer, QuizNavbar } from '../Components/index'
 
 const QuizPage = () => {
   const status = useSelector((state) => state.quiz.status);
