@@ -5,10 +5,14 @@ import GoogleAILogo from "/Google AI Logo.png";
 import { quizQuestions } from '../constants/quizQuestions';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { nextQuestion, addCorrect, addAttempted, addUnattempted} from '../app/slice/quizSlice';
+import { nextQuestion, addCorrect, addAttempted, fetchQuizData } from '../app/slice/quizSlice';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 const QuizPage = () => {
+  const status = useSelector((state) => state.quiz.status);
+  const quizData = useSelector((state) => state.quiz.quizData);
+
   const currentIndex = useSelector((state) => state.quiz.index);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,6 +35,22 @@ const QuizPage = () => {
   const [correctAnswer, setCorrectAnswer] = useState(false);
   const [timer, setTimer] = useState(null);
   const [remainingTime, setRemainingTime] = useState(15);
+
+  useEffect(() => {
+    dispatch(fetchQuizData());
+  }, []);
+
+  // useEffect(() => {
+  //   const requestOptions = {
+  //     method: "GET",
+  //     redirect: "follow"
+  //   };
+    
+  //   fetch("https://aws.testexperience.site/questions", requestOptions)
+  //     .then((response) => response.text())
+  //     .then((result) => console.log(result))
+  //     .catch((error) => console.error(error));
+  // }, [])
 
   // const handleOptionClick = (selected) => {
   //   setAnswered(true);
@@ -62,7 +82,7 @@ const QuizPage = () => {
 
   useEffect(() => {
     // console.log("New question begins");
-    if (!answered && currentIndex < quizQuestions.length) {
+    if (!answered && currentIndex <= quizQuestions.length) {
       const interval = setInterval(() => {
         setRemainingTime((prevTime) => {
           if (prevTime === 0) {
@@ -89,6 +109,7 @@ const QuizPage = () => {
     } else {
       setCorrectAnswer(false);
     }
+    dispatch(addAttempted());
     setRemainingTime(4);
     const newInterval = setInterval(() => {
       setRemainingTime((prevTime) => {
@@ -108,6 +129,10 @@ const QuizPage = () => {
     clearInterval(timer);
   };
 
+  if(status === "loading"){
+    return <Loader />
+  }
+  
   return (
     <div className='w-full min-h-screen bg-slate-50'>
       <QuizNavbar />
