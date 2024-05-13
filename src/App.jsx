@@ -1,8 +1,6 @@
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import HomePage from './pages/HomePage'
-import QuizPage from './pages/QuizPage'
-import ResultPage from './pages/ResultPage'
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HomePage, QuizPage, ResultPage } from './pages';
 
 const App = () => {
   return (
@@ -13,7 +11,7 @@ const App = () => {
         <Route path="/result" element={<ResultPage />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

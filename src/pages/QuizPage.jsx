@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import QuizNavbar from '../components/QuizNavbar';
-import Timer from '../components/Timer';
-import GoogleAILogo from "/Google AI Logo.png";
 import { quizQuestions } from '../constants/quizQuestions';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { nextQuestion, addCorrect, addAttempted, fetchQuizData } from '../app/slice/quizSlice';
 import { useNavigate } from 'react-router-dom';
-import Loader from '../components/Loader';
+import { Loader, Timer, QuizNavbar } from '../components/index'
 
 const QuizPage = () => {
   const status = useSelector((state) => state.quiz.status);
