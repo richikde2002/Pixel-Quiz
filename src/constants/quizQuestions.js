@@ -32,4 +32,26 @@ export const quizQuestions = [
         ],
         correct: "3000",
     },
+    {
+        index: 4,
+        question: "Which of the following is used for state management",
+        options: [
+            "axios",
+            "redux",
+            "tilt",
+            "useEffect",
+        ],
+        correct: "redux",
+    },
+    {
+        index: 5,
+        question: "How many parameters does useEffect hook take?",
+        options: [
+            "3",
+            "4",
+            "2",
+            "1",
+        ],
+        correct: "2",
+    },
 ];

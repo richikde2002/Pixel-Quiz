@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import QuizNavbar from '../components/QuizNavbar';
 import Timer from '../components/Timer';
 import GoogleAILogo from "/Google AI Logo.png";
-import { FaCheck, FaXmark } from "react-icons/fa6";
 import { quizQuestions } from '../constants/quizQuestions';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,15 +15,31 @@ const QuizPage = () => {
 
   const handleNextQuestion = () => {
     dispatch(nextQuestion());
+    setAnswered(false);
+    setCorrectAnswer(false);
   };
 
+  const [answered, setAnswered] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState(false);
+
   const handleOptionClick = (selected) => {
+    setAnswered(true);
     if(selected === correct){
-      console.log("correct");
+      setCorrectAnswer(true);
     } else{
-      console.log("wrong");
+      setCorrectAnswer(false);
     }
   }
+
+  useEffect(() => {
+    if(!answered && currentIndex < quizQuestions.length){
+      const timer = setTimeout(() => {
+        handleNextQuestion();
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [answered, currentIndex]);
 
   return (
     <div className='w-full min-h-screen bg-slate-50'>
@@ -51,7 +66,11 @@ const QuizPage = () => {
           <form className='flex flex-col gap-2.5 justify-start items-start w-full'>
             {options.map((option, i) => (
               <button 
-                className='w-full flex px-3 py-1' 
+                className={`w-full flex px-3 py-1 transition border-2
+                ${(answered && correctAnswer && option === correct) ? 'justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
+                ${(answered && !correctAnswer) && option !== correct ? 'justify-between items-center border-red-500 border-2 rounded-lg bg-gradient-to-b from-red-100 via-red-100 to-transparent' : ''}
+                ${(answered && !correctAnswer) && option === correct ? 'justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
+                `} 
                 key={i}
                 type='button'
                 onClick={() => handleOptionClick(option)}
@@ -61,22 +80,6 @@ const QuizPage = () => {
                 </p>
               </button>
             ))}
-            <button className='w-full flex px-3 py-1 justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent'>
-              <p>
-                <span className='font-bold'>B.</span> Chat GPT
-              </p>
-              <div className='bg-green-500 rounded-full p-1'>
-                <FaCheck color='white' />
-              </div>
-            </button>
-            <button className='w-full flex px-3 py-1 justify-between items-center border-red-500 border-2 rounded-lg bg-gradient-to-b from-red-100 via-red-100 to-transparent'>
-              <p>
-                <span className='font-bold'>C.</span> Google Gemini
-              </p>
-              <div className='bg-red-500 rounded-full p-1'>
-                <FaXmark color='white' />
-              </div>
-            </button>
           </form>
 
           <button
