@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import QuizNavbar from '../Components/QuizNavbar';
-import Timer from '../Components/Timer';
+import QuizNavbar from '../components/QuizNavbar';
+import Timer from '../components/Timer';
 import GoogleAILogo from "/Google AI Logo.png";
 import { quizQuestions } from '../constants/quizQuestions';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { nextQuestion } from '../app/slice/quizSlice';
+import { nextQuestion, addCorrect, addAttempted, addUnattempted} from '../app/slice/quizSlice';
+import { useNavigate } from 'react-router-dom';
 
 const QuizPage = () => {
   const currentIndex = useSelector((state) => state.quiz.index);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { index, question, options, correct } = quizQuestions[currentIndex - 1];
 
   const handleNextQuestion = () => {
-    dispatch(nextQuestion());
-    setRemainingTime(15);
-    setAnswered(false);
-    setCorrectAnswer(false);
-    clearInterval(timer);
+    if(index === quizQuestions.length){
+      navigate("/result");
+    } else{
+      dispatch(nextQuestion());
+      setRemainingTime(15);
+      setAnswered(false);
+      setCorrectAnswer(false);
+      clearInterval(timer);
+    }
   };
 
   const [answered, setAnswered] = useState(false);
@@ -52,10 +58,10 @@ const QuizPage = () => {
   //   }
   // }, [answered, currentIndex]);
 
-  console.log(`${remainingTime} seconds left`);
+  // console.log(`${remainingTime} seconds left`);
 
   useEffect(() => {
-    console.log("New question begins");
+    // console.log("New question begins");
     if (!answered && currentIndex < quizQuestions.length) {
       const interval = setInterval(() => {
         setRemainingTime((prevTime) => {
@@ -75,10 +81,11 @@ const QuizPage = () => {
   }, [answered, currentIndex]);
 
   const handleOptionClick = (selected) => {
-    console.log("You clicked, timer change to 4 seconds");
+    // console.log("You clicked, timer change to 4 seconds");
     setAnswered(true);
     if (selected === correct) {
       setCorrectAnswer(true);
+      dispatch(addCorrect());
     } else {
       setCorrectAnswer(false);
     }
