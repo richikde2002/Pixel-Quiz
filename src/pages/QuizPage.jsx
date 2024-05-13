@@ -31,16 +31,18 @@ const QuizPage = () => {
     } else{
       setCorrectAnswer(false);
     }
+    console.log("4 seconds left");
     clearTimeout(timer);
     setTimer(setTimeout(handleNextQuestion, 4000))
     setRemainingTime(4);  
   }
 
   useEffect(() => {
+    console.log("15 seconds left");
     if(!answered && currentIndex < quizQuestions.length){
       const newTimer = setTimeout(() => {
         handleNextQuestion();
-      }, 10000);
+      }, 15000);
       
       setTimer(newTimer);
 
