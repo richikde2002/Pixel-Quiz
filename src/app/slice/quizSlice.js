@@ -6,9 +6,10 @@ const initialState = {
 
 export const quizSlice = createSlice({
     name: 'quiz',
+    initialState,
     reducers: {
         nextQuestion: (state) => {
-            state.index++;
+            state.index += 1;
         }
     },
 });
