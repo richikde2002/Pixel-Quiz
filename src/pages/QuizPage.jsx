@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import QuizNavbar from '../components/QuizNavbar';
-import Timer from '../components/Timer';
+import QuizNavbar from '../Components/QuizNavbar';
+import Timer from '../Components/Timer';
 import GoogleAILogo from "/Google AI Logo.png";
 import { quizQuestions } from '../constants/quizQuestions';
 
