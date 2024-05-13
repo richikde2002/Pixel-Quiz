@@ -21,6 +21,8 @@ const QuizPage = () => {
 
   const [answered, setAnswered] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState(false);
+  const [timer, setTimer] = useState(null);
+  const [remainingTime, setRemainingTime] = useState(15);
 
   const handleOptionClick = (selected) => {
     setAnswered(true);
@@ -29,15 +31,20 @@ const QuizPage = () => {
     } else{
       setCorrectAnswer(false);
     }
+    clearTimeout(timer);
+    setTimer(setTimeout(handleNextQuestion, 4000))
+    setRemainingTime(4);  
   }
 
   useEffect(() => {
     if(!answered && currentIndex < quizQuestions.length){
-      const timer = setTimeout(() => {
+      const newTimer = setTimeout(() => {
         handleNextQuestion();
-      }, 3000);
+      }, 10000);
       
-      return () => clearTimeout(timer);
+      setTimer(newTimer);
+
+      return () => clearTimeout(newTimer);
     }
   }, [answered, currentIndex]);
 
