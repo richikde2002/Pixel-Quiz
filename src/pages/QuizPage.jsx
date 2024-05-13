@@ -15,8 +15,10 @@ const QuizPage = () => {
 
   const handleNextQuestion = () => {
     dispatch(nextQuestion());
+    setRemainingTime(15);
     setAnswered(false);
     setCorrectAnswer(false);
+    clearInterval(timer);
   };
 
   const [answered, setAnswered] = useState(false);
@@ -24,31 +26,80 @@ const QuizPage = () => {
   const [timer, setTimer] = useState(null);
   const [remainingTime, setRemainingTime] = useState(15);
 
-  const handleOptionClick = (selected) => {
-    setAnswered(true);
-    if(selected === correct){
-      setCorrectAnswer(true);
-    } else{
-      setCorrectAnswer(false);
-    }
-    console.log("4 seconds left");
-    clearTimeout(timer);
-    setTimer(setTimeout(handleNextQuestion, 4000))
-    setRemainingTime(4);  
-  }
+  // const handleOptionClick = (selected) => {
+  //   setAnswered(true);
+  //   if (selected === correct) {
+  //     setCorrectAnswer(true);
+  //   } else {
+  //     setCorrectAnswer(false);
+  //   }
+  //   console.log("4 seconds left");
+  //   clearTimeout(timer);
+  //   setTimer(setTimeout(handleNextQuestion, 4000))
+  //   setRemainingTime(4);
+  // }
+
+  // useEffect(() => {
+  //   console.log("15 seconds left");
+  //   if(!answered && currentIndex < quizQuestions.length){
+  //     const newTimer = setTimeout(() => {
+  //       handleNextQuestion();
+  //     }, 15000);
+
+  //     setTimer(newTimer);
+
+  //     return () => clearTimeout(newTimer);
+  //   }
+  // }, [answered, currentIndex]);
+
+  console.log(`${remainingTime} seconds left`);
 
   useEffect(() => {
-    console.log("15 seconds left");
-    if(!answered && currentIndex < quizQuestions.length){
-      const newTimer = setTimeout(() => {
-        handleNextQuestion();
-      }, 15000);
+    console.log("New question begins");
+    if (!answered && currentIndex < quizQuestions.length) {
+      const interval = setInterval(() => {
+        setRemainingTime((prevTime) => {
+          if (prevTime === 0) {
+            clearInterval(interval);
+            handleNextQuestion();
+            return 15;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
       
-      setTimer(newTimer);
-
-      return () => clearTimeout(newTimer);
+      return () => {
+        clearInterval(interval);
+      }
     }
   }, [answered, currentIndex]);
+
+  const handleOptionClick = (selected) => {
+    console.log("You clicked, timer change to 4 seconds");
+    setAnswered(true);
+    if (selected === correct) {
+      setCorrectAnswer(true);
+    } else {
+      setCorrectAnswer(false);
+    }
+    setRemainingTime(4);
+    const newInterval = setInterval(() => {
+      setRemainingTime((prevTime) => {
+        if (prevTime === 0) {
+          clearInterval(newInterval);
+          handleNextQuestion();
+          return 15;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+    setTimer(newInterval)
+  };
+
+  const handleSkip = () => {
+    handleNextQuestion();
+    clearInterval(timer);
+  };
 
   return (
     <div className='w-full min-h-screen bg-slate-50'>
@@ -57,7 +108,7 @@ const QuizPage = () => {
 
         <div className='relative my-8'>
           <div className='absolute left-[50%] -translate-x-[50%] -translate-y-[50%]'>
-            <Timer />
+            <Timer time={remainingTime} />
           </div>
           <img src={GoogleAILogo} alt="Gooogle AI" className='border-2 rounded-xl' />
         </div>
@@ -74,25 +125,25 @@ const QuizPage = () => {
 
           <form className='flex flex-col gap-2.5 justify-start items-start w-full'>
             {options.map((option, i) => (
-              <button 
+              <button
                 className={`w-full flex px-3 py-1 transition border-2
                 ${(answered && correctAnswer && option === correct) ? 'justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
                 ${(answered && !correctAnswer) && option !== correct ? 'justify-between items-center border-red-500 border-2 rounded-lg bg-gradient-to-b from-red-100 via-red-100 to-transparent' : ''}
                 ${(answered && !correctAnswer) && option === correct ? 'justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
-                `} 
+                `}
                 key={i}
                 type='button'
                 onClick={() => handleOptionClick(option)}
               >
                 <p>
-                  <span className='font-bold'>{i+1}.</span> {option}
+                  <span className='font-bold'>{i + 1}.</span> {option}
                 </p>
               </button>
             ))}
           </form>
 
           <button
-            onClick={handleNextQuestion}
+            onClick={handleSkip}
             className='bg-gray-100 mx-auto text-sm px-5 py-2 rounded-full shadow-lg'
           >
             Skip to Next
