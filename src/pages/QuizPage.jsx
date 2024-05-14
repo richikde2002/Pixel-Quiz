@@ -53,7 +53,7 @@ const QuizPage = () => {
   
   
   const handleNextQuestion = () => {
-    if (currentQuestion.index === quizData.length) {
+    if (currentIndex === quizData.length) {
       navigate(`/result?territory_id=${territoryId}&contest_id=${contestId}&user_points=${score}`);
     } else {
       dispatch(nextQuestion());

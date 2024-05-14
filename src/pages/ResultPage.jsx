@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { QuizNavbar } from '../Components';
@@ -23,6 +23,9 @@ const ResultPage = () => {
 
   }
 
+
+  const [rewardsData, setRewardsData] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,9 +36,11 @@ const ResultPage = () => {
             user_points: query.get("user_points")
           }
         });
-        console.log(response.data);
+        setRewardsData(response.data);
+        console.log("rewards data is : ", rewardsData);
+        // console.log(response.data);
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     };
 
