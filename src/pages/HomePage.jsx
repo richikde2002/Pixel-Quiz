@@ -4,6 +4,9 @@ import GoogleLogo from '/Google Logo.png';
 import WelcomeScreenPoster from '/Welcome Screen Poster.png';
 import ImageLoader from '../Components/ImageLoader';
 
+const territory_id = "In";
+const contest_id = 1;
+
 const HomePage = () => {
   const navigate = useNavigate();
 
@@ -16,18 +19,21 @@ const HomePage = () => {
       </header>
       <main>
         <div className='max-w-2xl px-4 mx-auto mt-6 text-center flex flex-col gap-0.5 justify-center items-center'>
-          <img src={GoogleLogo} alt="" className='h-5 w-5' />
-          <h2 className='font-semibold text-lg sm:text-xl'>Welcome to</h2>
-          <h1 className='font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl'>Pixel Quiz Challenge</h1>
-          <p className='text-sm md:text-lg text-zinc-600 mt-3'>Play Pixel Quiz Challenge and win coupons and many more rewards...</p>
+          <img src={GoogleLogo} alt="" className='h-5 w-5 md:h-8 md:w-8' />
+          <h2 className='font-semibold text-xl sm:text-2xl md:text-4xl mt-2'>Welcome to</h2>
+          <h1 className='font-semibold text-2xl sm:text-3xl md:text-5xl -mt-0.5'>Pixel Quiz Challenge</h1>
+          <p className='font-medium text-sm md:text-xl text-zinc-600 mt-3 leading-tight'>Play Pixel Quiz Challenge and win coupons and many more rewards...</p>
         </div>
 
         <div className='max-w-2xl px-4 mx-auto mt-10 text-center'>
-          <p className='text-xs sm:text-base text-zinc-500'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae molestias voluptatum iste, dolorum tenetur,
+          <p className='text-xs md:text-lg tracking-tight leading-tight text-zinc-500 text-left'>
+            Porem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. quent per conubia nostra, per inceptos himenaeos
             <span className='text-[#4285F4]'>qui temporibus provident quis</span>
           </p>
-          <button onClick={() => navigate("/quiz")} className="bg-[#4285F4] rounded-full w-full mt-4 md:mt-8 shadow-md text-white pt-2 pb-3 font-medium sm:text-3xl">
+          <button
+            onClick={() => navigate(`/quiz?territory_id=${territory_id}&contest_id=${contest_id}`)}
+            className="bg-[#4285F4] rounded-full w-full mt-4 md:mt-8 shadow-md text-white py-4 md:py-6 font-medium sm:text-3xl"
+          >
             Start Playing
           </button>
         </div>

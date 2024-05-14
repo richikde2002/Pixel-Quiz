@@ -3,17 +3,23 @@ import React, { useEffect, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { nextQuestion, addCorrect, addAttempted, fetchQuizData } from '../app/slice/quizSlice';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Loader, Timer, QuizNavbar } from '../Components/index'
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+}
 
 const QuizPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const query = useQuery();
+  
   const status = useSelector((state) => state.quiz.status);
   const quizData = useSelector((state) => state.quiz.quizData);
   const currentIndex = useSelector((state) => state.quiz.index);
-
+  const score = useSelector((state) => state.quiz.correct);
+  
   const [answered, setAnswered] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState('');
@@ -21,12 +27,14 @@ const QuizPage = () => {
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [timer, setTimer] = useState(null);
   const [remainingTime, setRemainingTime] = useState(15);
-
+  const [territoryId, setTerritoryId] = useState('');
+  const [contestId, setContestId] = useState('');
+  
   // Fetching Quiz Data
   useEffect(() => {
     dispatch(fetchQuizData());
   }, []);
-
+  
   // Fetching the current question
   useEffect(() => {
     if (quizData.length > 0) {
@@ -34,7 +42,7 @@ const QuizPage = () => {
       // console.log(currentQuestion);
     }
   }, [quizData, currentIndex]);
-
+  
   // Fetching the correct question
   useEffect(() => {
     if (currentQuestion !== null) {
@@ -42,11 +50,11 @@ const QuizPage = () => {
       // console.log(correctAnswer);
     }
   }, [currentQuestion]);
-
-
+  
+  
   const handleNextQuestion = () => {
     if (currentQuestion.index === quizData.length) {
-      navigate("/result");
+      navigate(`/result?territory_id=${territoryId}&contest_id=${contestId}&user_points=${score}`);
     } else {
       dispatch(nextQuestion());
       setSelectedAnswer('');
@@ -56,6 +64,12 @@ const QuizPage = () => {
       clearInterval(timer);
     }
   };
+  
+  useEffect(() => {
+    setTerritoryId(query.get("territory_id"));
+    setContestId(query.get("contest_id"));
+    // console.log("Territory ID is: ", territoryId);
+  }, [territoryId]);
 
   useEffect(() => {
     if (!answered && currentIndex <= quizData.length) {
@@ -69,7 +83,7 @@ const QuizPage = () => {
           return prevTime - 1;
         });
       }, 1000);
-
+      
       return () => {
         clearInterval(interval);
       }
