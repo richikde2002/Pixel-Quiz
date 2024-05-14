@@ -9,12 +9,12 @@ import { Loader, Timer, QuizNavbar } from '../Components/index'
 const QuizPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const status = useSelector((state) => state.quiz.status);
 
-  useEffect(() => {
-    dispatch(fetchQuizData());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchQuizData());
+  // }, []);
   const quizData = useSelector((state) => state.quiz.quizData);
 
   const currentIndex = useSelector((state) => state.quiz.index);
