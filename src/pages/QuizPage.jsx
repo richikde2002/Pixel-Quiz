@@ -7,35 +7,41 @@ import { useNavigate } from 'react-router-dom';
 import { Loader, Timer, QuizNavbar } from '../Components/index'
 
 const QuizPage = () => {
-  const status = useSelector((state) => state.quiz.status);
-  // const quizData = useSelector((state) => state.quiz.quizData);
-
-  const currentIndex = useSelector((state) => state.quiz.index);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const status = useSelector((state) => state.quiz.status);
 
-  const { index, question, options, correct } = quizQuestions[currentIndex - 1];
+  useEffect(() => {
+    dispatch(fetchQuizData());
+  }, []);
+  const quizData = useSelector((state) => state.quiz.quizData);
+
+  const currentIndex = useSelector((state) => state.quiz.index);
+
+  // const { index, question, options, correct } = quizQuestions[currentIndex - 1];
+  const currentQuestion = quizData[currentIndex - 1];
+  console.log(currentQuestion);
+  const correctAnswer = currentQuestion.options[currentQuestion.correctAnswerIndex]
+  console.log(correctAnswer);
 
   const handleNextQuestion = () => {
-    if(index === quizQuestions.length){
+    if(currentQuestion.index === quizData.length){
       navigate("/result");
     } else{
       dispatch(nextQuestion());
       setRemainingTime(15);
       setAnswered(false);
-      setCorrectAnswer(false);
+      setIsCorrectAnswer(false);
       clearInterval(timer);
     }
   };
 
   const [answered, setAnswered] = useState(false);
-  const [correctAnswer, setCorrectAnswer] = useState(false);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [timer, setTimer] = useState(null);
   const [remainingTime, setRemainingTime] = useState(15);
 
-  // useEffect(() => {
-  //   dispatch(fetchQuizData());
-  // }, []);
 
   useEffect(() => {
     if (!answered && currentIndex <= quizQuestions.length) {
@@ -58,11 +64,11 @@ const QuizPage = () => {
 
   const handleOptionClick = (selected) => {
     setAnswered(true);
-    if (selected === correct) {
-      setCorrectAnswer(true);
+    if (selected === correctAnswer) {
+      setIsCorrectAnswer(true);
       dispatch(addCorrect());
     } else {
-      setCorrectAnswer(false);
+      setIsCorrectAnswer(false);
     }
     dispatch(addAttempted());
     setRemainingTime(4);
@@ -93,26 +99,26 @@ const QuizPage = () => {
       <QuizNavbar />
       <main className='w-full h-full mt-6 max-w-2xl mx-auto px-4 sm:px-6 md:px-8'>
 
-        <Timer time={remainingTime} />
+        <Timer time={remainingTime} imgsrc={currentQuestion.imageUrl} />
 
         <div className='flex flex-col gap-2 mt-2'>
           <div className='flex justify-between font-medium text-slate-400'>
-            <p className='text-sm'>{index}/10</p>
+            <p className='text-sm'>{currentQuestion?.index}/10</p>
             <p className='text-sm'>(10 Points)</p>
           </div>
 
           <p className='font-semibold text-center my-2'>
-            {question}
+            {currentQuestion.question}
           </p>
 
           <form className='flex flex-col gap-2.5 justify-start items-start w-full'>
-            {options.map((option, i) => (
+            {currentQuestion.options.map((option, i) => (
               <button
                 disabled={answered}
                 className={`w-full flex px-3 py-1 transition border-2
-                ${(answered && correctAnswer && option === correct) ? 'justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
-                ${(answered && !correctAnswer) && option !== correct ? 'justify-between items-center border-red-500 border-2 rounded-lg bg-gradient-to-b from-red-100 via-red-100 to-transparent' : ''}
-                ${(answered && !correctAnswer) && option === correct ? 'justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
+                ${(answered && isCorrectAnswer && option === correctAnswer) ? 'justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
+                ${(answered && !isCorrectAnswer) && option !== correctAnswer ? 'justify-between items-center border-red-500 border-2 rounded-lg bg-gradient-to-b from-red-100 via-red-100 to-transparent' : ''}
+                ${(answered && !isCorrectAnswer) && option === correctAnswer ? 'justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
                 `}
                 key={i}
                 type='button'
