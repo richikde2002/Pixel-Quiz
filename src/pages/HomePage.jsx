@@ -5,6 +5,7 @@ import { fetchQuizData } from '../app/slice/quizSlice';
 import { Loader } from '../Components';
 import GoogleLogo from '/Google Logo.png';
 import WelcomeScreenPoster from '/Welcome Screen Poster.png';
+import ImageLoader from '../Components/ImageLoader';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -31,7 +32,9 @@ const HomePage = () => {
           <img src={GoogleLogo} alt="" className='h-5 w-5' />
           <h1 className='text-xl font-semibold'>Challenges</h1>
         </div>
-        <img src={WelcomeScreenPoster} className='w-full max-w-lg mx-auto' />
+        <div className='w-full max-w-lg mx-auto'>
+          <ImageLoader src={WelcomeScreenPoster} />
+        </div>
       </header>
       <main>
         <div className='max-w-lg px-4 mx-auto mt-6 text-center flex flex-col gap-0.5 justify-center items-center'>
