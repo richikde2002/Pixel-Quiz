@@ -72,7 +72,7 @@ const QuizPage = () => {
         clearInterval(interval);
       }
     }
-  }, [answered, currentIndex]);
+  }, [answered, quizData, currentIndex]);
 
   const handleOptionClick = (selected) => {
     setAnswered(true);
