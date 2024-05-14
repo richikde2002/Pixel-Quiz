@@ -31,7 +31,7 @@ const QuizPage = () => {
   useEffect(() => {
     if (quizData.length > 0) {
       setCurrentQuestion(quizData[currentIndex - 1]);
-      console.log(currentQuestion);
+      // console.log(currentQuestion);
     }
   }, [quizData, currentIndex]);
 
@@ -39,7 +39,7 @@ const QuizPage = () => {
   useEffect(() => {
     if (currentQuestion !== null) {
       setCorrectAnswer(currentQuestion.options[currentQuestion.correctAnswerIndex]);
-      console.log(correctAnswer);
+      // console.log(correctAnswer);
     }
   }, [currentQuestion]);
 
