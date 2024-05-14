@@ -1,29 +1,11 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom'
-import { fetchQuizData } from '../app/slice/quizSlice';
-import { Loader } from '../Components';
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import GoogleLogo from '/Google Logo.png';
 import WelcomeScreenPoster from '/Welcome Screen Poster.png';
 import ImageLoader from '../Components/ImageLoader';
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const status = useSelector((state) => state.quiz.status);
-
-  const handleStart = () => {
-    dispatch(fetchQuizData());
-  }
-
-  if (status === "loading") {
-    return <Loader />
-  } else if (status === "succeeded") {
-    navigate("/quiz");
-  } else if (status === "failed") {
-    return <p>Error...</p>
-  }
 
   return (
     <div className="bg-white min-h-screen w-full flex flex-col justify-start items-center">
@@ -49,7 +31,7 @@ const HomePage = () => {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae molestias voluptatum iste, dolorum tenetur,
             <span className='text-[#4285F4]'>qui temporibus provident quis</span>
           </p>
-          <button onClick={handleStart} to="/quiz" className="bg-[#4285F4] rounded-full w-full mt-4 shadow-md text-white pt-2 pb-3 font-medium">
+          <button onClick={() => navigate("/quiz")} className="bg-[#4285F4] rounded-full w-full mt-4 shadow-md text-white pt-2 pb-3 font-medium">
             Start Playing
           </button>
         </div>
