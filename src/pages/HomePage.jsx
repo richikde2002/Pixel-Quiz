@@ -17,17 +17,17 @@ const HomePage = () => {
       <main>
         <div className='max-w-2xl px-4 mx-auto mt-6 text-center flex flex-col gap-0.5 justify-center items-center'>
           <img src={GoogleLogo} alt="" className='h-5 w-5' />
-          <h2 className='font-semibold text-lg'>Welcome to</h2>
-          <h1 className='font-bold text-xl'>Pixel Quiz Challenge</h1>
-          <p className='text-sm text-zinc-600 mt-3'>Play Pixel Quiz Challenge and win coupons and many more rewards...</p>
+          <h2 className='font-semibold text-lg sm:text-xl'>Welcome to</h2>
+          <h1 className='font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl'>Pixel Quiz Challenge</h1>
+          <p className='text-sm md:text-lg text-zinc-600 mt-3'>Play Pixel Quiz Challenge and win coupons and many more rewards...</p>
         </div>
 
         <div className='max-w-2xl px-4 mx-auto mt-10 text-center'>
-          <p className='text-xs text-zinc-500'>
+          <p className='text-xs sm:text-base text-zinc-500'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae molestias voluptatum iste, dolorum tenetur,
             <span className='text-[#4285F4]'>qui temporibus provident quis</span>
           </p>
-          <button onClick={() => navigate("/quiz")} className="bg-[#4285F4] rounded-full w-full mt-4 shadow-md text-white pt-2 pb-3 font-medium">
+          <button onClick={() => navigate("/quiz")} className="bg-[#4285F4] rounded-full w-full mt-4 md:mt-8 shadow-md text-white pt-2 pb-3 font-medium sm:text-3xl">
             Start Playing
           </button>
         </div>

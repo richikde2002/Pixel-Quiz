@@ -134,18 +134,17 @@ const QuizPage = () => {
               {currentQuestion.options.map((option, i) => (
                 <button
                   disabled={answered}
-                  className={`w-full flex px-3 py-1 transition border-2
-                    ${(answered && isCorrectAnswer && option === correctAnswer) ? 'justify-start items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
-                    ${(answered && option === selectedAnswer) && option !== correctAnswer ? 'justify-start items-center border-red-500 border-2 rounded-lg bg-gradient-to-b from-red-100 via-red-100 to-transparent' : ''}
-                    ${(answered && !isCorrectAnswer) && option === correctAnswer ? 'justify-start items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
+                  className={`w-full flex justify-start items-center gap-2 px-3 py-1 transition border-2
+                    ${(answered && isCorrectAnswer && option === correctAnswer) ? 'border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
+                    ${(answered && option === selectedAnswer) && option !== correctAnswer ? 'border-red-500 border-2 rounded-lg bg-gradient-to-b from-red-100 via-red-100 to-transparent' : ''}
+                    ${(answered && !isCorrectAnswer) && option === correctAnswer ? 'border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
                   `}
                   key={i}
                   type='button'
                   onClick={() => handleOptionClick(option)}
                 >
-                  <p>
-                    <span className='font-bold'>{i + 1}.</span> {option}
-                  </p>
+                  <p className='font-bold'>{i + 1}.</p>
+                  <p className='text-left'>{option}</p>
                 </button>
               ))}
             </form>
