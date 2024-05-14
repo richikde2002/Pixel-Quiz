@@ -17,6 +17,7 @@ const QuizPage = () => {
   const [answered, setAnswered] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState('');
+  const [selectedAnswer, setSelectedAnswer] = useState('');
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [timer, setTimer] = useState(null);
   const [remainingTime, setRemainingTime] = useState(15);
@@ -48,6 +49,7 @@ const QuizPage = () => {
       navigate("/result");
     } else {
       dispatch(nextQuestion());
+      setSelectedAnswer('');
       setRemainingTime(15);
       setAnswered(false);
       setIsCorrectAnswer(false);
@@ -76,6 +78,7 @@ const QuizPage = () => {
 
   const handleOptionClick = (selected) => {
     setAnswered(true);
+    setSelectedAnswer(selected);
     if (selected === correctAnswer) {
       setIsCorrectAnswer(true);
       dispatch(addCorrect());
@@ -132,9 +135,9 @@ const QuizPage = () => {
                 <button
                   disabled={answered}
                   className={`w-full flex px-3 py-1 transition border-2
-                    ${(answered && isCorrectAnswer && option === correctAnswer) ? 'justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
-                    ${(answered && !isCorrectAnswer) && option !== correctAnswer ? 'justify-between items-center border-red-500 border-2 rounded-lg bg-gradient-to-b from-red-100 via-red-100 to-transparent' : ''}
-                    ${(answered && !isCorrectAnswer) && option === correctAnswer ? 'justify-between items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
+                    ${(answered && isCorrectAnswer && option === correctAnswer) ? 'justify-start items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
+                    ${(answered && option === selectedAnswer) && option !== correctAnswer ? 'justify-start items-center border-red-500 border-2 rounded-lg bg-gradient-to-b from-red-100 via-red-100 to-transparent' : ''}
+                    ${(answered && !isCorrectAnswer) && option === correctAnswer ? 'justify-start items-center border-green-500 border-2 rounded-lg bg-gradient-to-b from-green-100 via-green-100 to-transparent' : ''}
                   `}
                   key={i}
                   type='button'
@@ -149,7 +152,7 @@ const QuizPage = () => {
 
             <button
               onClick={handleSkip}
-              className='bg-gray-100 mx-auto text-sm px-5 py-2 rounded-full shadow-lg'
+              className='bg-gray-100 mx-auto text-sm px-5 py-2 rounded-full shadow-lg mt-2'
             // disabled={answered}
             >
               Skip to Next
