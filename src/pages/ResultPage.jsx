@@ -29,7 +29,7 @@ const ResultPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://gcptest.testexperience.site/getContestRewards_testing?contest_id=1&territory_id=Calgary North, AB&user_points=300');
+        const response = await axios.get(`https://gcptest.testexperience.site/getContestRewards_testing?contest_id=${query.get("contest_id")}&territory_id=${query.get("territory_id")}&user_points=${query.get("user_points")}`);
         setRewardsData(response.data);
         // console.log(response.data);
       } catch (error) {
@@ -60,8 +60,8 @@ const ResultPage = () => {
         </div>
 
         <div className='mt-4'>
-          <h1 className='text-2xl font-medium'>+{correctAnswers*10} Points</h1>
-          <p className='text-sm font-medium mt-1'>You earned {correctAnswers*10} points, redeem them in store.</p>
+          <h1 className='text-2xl font-medium'>+{query.get("user_points")} Points</h1>
+          <p className='text-sm font-medium mt-1'>You earned {query.get("user_points")} points, redeem them in store.</p>
         </div>
 
         <div className='my-10'>

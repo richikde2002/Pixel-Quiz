@@ -54,7 +54,7 @@ const QuizPage = () => {
   
   const handleNextQuestion = () => {
     if (currentIndex === quizData.length) {
-      navigate(`/result?territory_id=${territoryId}&contest_id=${contestId}&user_points=${score}`);
+      navigate(`/result?territory_id=${territoryId}&contest_id=${contestId}&user_points=${score*50}`);
     } else {
       dispatch(nextQuestion());
       setSelectedAnswer('');

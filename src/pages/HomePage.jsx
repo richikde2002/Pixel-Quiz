@@ -13,14 +13,14 @@ import Select from '@mui/material/Select';
 import { Autocomplete, TextField } from '@mui/material';
 
 const territories = [
-  { label: "NewYork, NY"},
+  { label: "New York, NY"},
   { label: "India, IN"},
   { label: "London, LD"},
   { label: "Canada, CN"},
 ];
 
 const contest_id = 1;
-const territory_id = "NewYork, NY";
+const territory_id = "New York, NY";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -46,30 +46,15 @@ const HomePage = () => {
           <p className='font-medium text-sm md:text-xl text-zinc-600 mt-3 leading-tight'>Play Pixel Quiz Challenge and win coupons and many more rewards...</p>
         </div>
 
-        <div className='w-full max-w-md px-4 mx-auto mt-4 flex justify-center items-center'>
-          {/* <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Territory</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={territory}
-              label="Territory"
-              onChange={handleChange}
-            >
-              <MenuItem value={"NY"}>New York, NY</MenuItem>
-              <MenuItem value={"IN"}>India, IN</MenuItem>
-              <MenuItem value={"LD"}>London, LD</MenuItem>
-            </Select>
-          </FormControl> */}
-
-          {/* <Autocomplete 
+        {/* <div className='w-full max-w-md px-4 mx-auto mt-4 flex justify-center items-center'>
+          <Autocomplete 
             disablePortal
             id='combo-box-demo'
             options={territories}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Store"  />}
-          /> */}
-        </div>
+          />
+        </div> */}
 
         <div className='max-w-2xl px-4 mx-auto mt-10 text-center'>
           <p className='text-xs md:text-lg tracking-tight leading-tight text-zinc-500 text-left'>
