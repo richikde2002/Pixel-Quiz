@@ -62,13 +62,13 @@ const HomePage = () => {
             </Select>
           </FormControl> */}
 
-          <Autocomplete 
+          {/* <Autocomplete 
             disablePortal
             id='combo-box-demo'
             options={territories}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Territory"  />}
-          />
+            renderInput={(params) => <TextField {...params} label="Store"  />}
+          /> */}
         </div>
 
         <div className='max-w-2xl px-4 mx-auto mt-10 text-center'>

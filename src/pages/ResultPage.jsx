@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { QuizNavbar } from '../Components';
+import { ImageLoader, QuizNavbar } from '../Components';
 import GoogleLogo from '/Google Logo.png';
 import CongoCard from '/Congo Card.png'
 import { IoIosArrowForward } from "react-icons/io";
@@ -20,30 +20,23 @@ const ResultPage = () => {
   const query = useQuery();
 
   const handleClick = () => {
-
+    // Go back to Flutter app
   }
 
-
-  const [rewardsData, setRewardsData] = useState(null);
-
+  
+  const [rewardsData, setRewardsData] = useState();
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://gcptest.testexperience.site/getContestRewards_testing', {
-          params: {
-            contest_id: query.get("contest_id"),
-            territory_id: query.get("territory_id"),
-            user_points: query.get("user_points")
-          }
-        });
+        const response = await axios.get('https://gcptest.testexperience.site/getContestRewards_testing?contest_id=1&territory_id=Calgary North, AB&user_points=300');
         setRewardsData(response.data);
-        console.log("rewards data is : ", rewardsData);
         // console.log(response.data);
       } catch (error) {
         // console.error(error);
       }
     };
-
+    
     fetchData();
   }, []);
 
@@ -52,8 +45,10 @@ const ResultPage = () => {
       <QuizNavbar className="fixed top-0" />
       <div className='w-full h-full absolute top-0 left-0 bg-black opacity-30 z-10'></div>
 
-      <div className='h-80 w-80 rounded-xl absolute top-[10%] left-[50%] translate-x-[-50%] z-50'>
-        <img src={CongoCard} className='object-cover' />
+      <div className='h-60 w-60 rounded-full absolute top-[15%] left-[50%] translate-x-[-50%] z-50 overflow-hidden'>
+        <ImageLoader src={rewardsData?.url} alt="Coin" />
+        {/* <img src={rewardsData?.url} className='object-cover' /> */}
+        {/* <p className='absolute top-[55%] left-[50%] translate-x-[-40%] text-black font-bold text-4xl'>10G</p> */}
       </div>
 
       <div className='w-full absolute bottom-0 flex flex-col justify-center items-center z-50 bg-white px-4 pt-4 rounded-t-2xl'>
@@ -65,12 +60,12 @@ const ResultPage = () => {
         </div>
 
         <div className='mt-4'>
-          <h1 className='text-2xl font-medium'>+80 Points</h1>
-          <p className='text-sm font-medium mt-1'>You earned 80 points, redeem them in store.</p>
+          <h1 className='text-2xl font-medium'>+{correctAnswers*10} Points</h1>
+          <p className='text-sm font-medium mt-1'>You earned {correctAnswers*10} points, redeem them in store.</p>
         </div>
 
         <div className='my-10'>
-          <button 
+          <button
             className='bg-[#4285F4] text-white font-medium px-5 py-3 rounded-xl flex justify-center items-center gap-2'
             onClick={handleClick}
           >
