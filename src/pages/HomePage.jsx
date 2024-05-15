@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import GoogleLogo from '/Google Logo.png';
 import WelcomeScreenPoster from '/Welcome Screen Poster.png';
 import ImageLoader from '../Components/ImageLoader';
@@ -12,10 +12,28 @@ const territories = [
 ];
 
 const contest_id = 1;
-const territory_id = "New York, NY";
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+}
 
 const HomePage = () => {
   const navigate = useNavigate();
+
+  const query = useQuery();
+
+  // const [contestId, setContestId] = useState(query.get("contest_id"));
+  const [territoryId, setTerritoryId] = useState('');
+
+  // console.log(contestId);
+  
+  useEffect(() => {
+    const setterTerritoryId = async () => {
+      const territoryIdValue = query.get("territory_id");
+      setTerritoryId(territoryIdValue);
+    }
+    setterTerritoryId();
+  }, []);
 
   return (
     <div className="bg-white min-h-screen w-full flex flex-col justify-start items-center">
@@ -33,12 +51,13 @@ const HomePage = () => {
         </div>
 
         <div className='max-w-2xl px-4 mx-auto mt-10 text-center'>
-          <p className='text-xs md:text-lg tracking-tight leading-tight text-zinc-500 text-left'>
-            Porem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. quent per conubia nostra, per inceptos himenaeos
-            <span className='text-[#4285F4]'>qui temporibus provident quis</span>
+        <p className='text-xs md:text-lg tracking-tight leading-tight text-zinc-500 text-left'>
+          • You will get 15 seconds to answer each question.<br/>
+          • Each question awards 50 points.<br/>
+          •{" "}<span className='text-[#4285F4]'>You can attempt this quiz only once.</span>
           </p>
           <button
-            onClick={() => navigate(`/quiz?territory_id=${territory_id}&contest_id=${contest_id}`)}
+            onClick={() => navigate(`/quiz?territory_id=${territoryId}&contest_id=${contest_id}`)}
             className="bg-[#4285F4] rounded-full w-full mt-4 md:mt-8 shadow-md text-white py-4 md:py-6 font-medium sm:text-3xl"
           >
             Start Playing
