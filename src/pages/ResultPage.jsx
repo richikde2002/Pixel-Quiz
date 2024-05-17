@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ImageLoader, QuizNavbar } from '../Components';
 import GoogleLogo from '/Google Logo.png';
-import CongoCard from '/Congo Card.png'
 import { IoIosArrowForward } from "react-icons/io";
 import Confetti from 'react-confetti';
 
@@ -26,6 +25,8 @@ const ResultPage = () => {
     window.flutter_inappwebview.callHandler('MessageChannel', 'navigateToNewScreen');
     Toaster.postMessage('buttonClicked');
   }
+
+  const [rewardsData, setRewardsData] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,7 +86,7 @@ const ResultPage = () => {
         </div>
 
         <div className='mt-4'>
-          <h1 className='text-2xl font-medium'>+{query.get("user_points")} Points</h1>
+          <h1 className='text-2xl font-medium'>Congratulations!</h1>
           <p className='text-sm font-medium mt-1'>You answered {query.get("user_points")/50} questions correctly, and recieved {query.get("user_points")} points.</p>
         </div>
 
