@@ -4,13 +4,6 @@ import GoogleLogo from '/Google Logo.png';
 import WelcomeScreenPoster from '/Welcome Screen Poster.png';
 import ImageLoader from '../Components/ImageLoader';
 
-const territories = [
-  { label: "New York, NY"},
-  { label: "India, IN"},
-  { label: "London, LD"},
-  { label: "Canada, CN"},
-];
-
 const contest_id = 1;
 
 const useQuery = () => {
