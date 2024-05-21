@@ -42,7 +42,7 @@ export const quizSlice = createSlice({
 
 export const fetchQuizData = createAsyncThunk('quiz/fetchQuizData', async () => {
     try {
-        const response = await axios.get('https://aws.testexperience.site/questions_test');
+        const response = await axios.get('https://aws.testexperience.site/questions_prod');
         // console.log(response.data);
         return response.data;
     } catch (err) {
