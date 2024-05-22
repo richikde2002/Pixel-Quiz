@@ -33,9 +33,8 @@ const ResultPage = () => {
       try {
         const response = await axios.get(`https://gcpprod.testexperience.site/getContestRewards?contest_id=${query.get("contest_id")}&territory_id=${query.get("territory_id")}&user_points=${query.get("user_points")}`);
         setRewardsData(response.data);
-        console.log(response.data);
       } catch (error) {
-        // console.error(error);
+        console.error(error);
       }
     };
     const toggleConfetti = async () => {
