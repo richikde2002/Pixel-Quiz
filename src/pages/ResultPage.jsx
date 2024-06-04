@@ -86,7 +86,7 @@ const ResultPage = () => {
 
         <div className='mt-4'>
           <h1 className='text-2xl font-medium'>Congratulations!</h1>
-          <p className='text-sm font-medium mt-1'>You answered {query.get("user_points")/50} questions correctly, and recieved {query.get("user_points")} points.</p>
+          <p className='text-sm font-medium mt-1'>You answered {query.get("user_points")/50} questions correctly, and received {query.get("user_points")} points.</p>
         </div>
 
         <div className='my-10'>
